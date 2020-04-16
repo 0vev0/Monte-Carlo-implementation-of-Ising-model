@@ -145,22 +145,31 @@ def plot_lattice(lattice_state):
 
 def plot_energy(energy_data):
     '''
+    plot average energy of spins as a function of temperature
+    The example has grid resets, plotting from high temperature state and plotting from low temperature state
+    Comparison of the graphs of the three different methods: grid reset, going from high to low, and going from low to high
+    multiple trials for each method
     '''
     return
 
 def plot_magnetization(magnetization_data):
     '''
-    plot a graph with average spins as a function of the temperature
-    there are going to be many lines of different lattice sizes (labeled as n, but really is n by n
+    plot a graph with average magnetization of spins as a function of the temperature
+    there are going to be many lines of different lattice sizes (labeled as n, but really is n by n)
+    The example compares grid resets, analytical result, going from high to low, and going from low to high
     '''
     return
 
 def plot_specific_heat(specific_heat_data):
     '''
+    plot specific heat spins as a function of temperature
+    don't use the grid reset method
     '''
     return
 
 def plot_correlation_function(correlation_function_data):
     '''
+    plot the correlation function as G(r), G vs. r, with r being the # units distance between two spins
+    plot at many different T's
     '''
     return
