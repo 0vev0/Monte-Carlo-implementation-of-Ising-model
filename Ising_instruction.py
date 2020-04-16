@@ -150,6 +150,8 @@ def plot_energy(energy_data):
 
 def plot_magnetization(magnetization_data):
     '''
+    plot a graph with average spins as a function of the temperature
+    there are going to be many lines of different lattice sizes (labeled as n, but really is n by n
     '''
     return
 
