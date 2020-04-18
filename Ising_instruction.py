@@ -54,8 +54,13 @@ This fucntion calculate the average magnetization. lat = lattice created in the 
     return np.sum(lat)/(len(lat))
 
 k_b = 1 # Set the actuall bolztman constant if needed
-def Ising_simulation(n, steps, J, T, r):
-    
+def Ising_simulation(n, steps, J, T, r, ifcorr):
+    #Calculate correlation function is a hugh burden to computer memory and its temperature range 
+    #is different from that of energy, magnetization and specific heat, therefore we use ifcorr to
+    #seperate two kinds of simulation:
+    #if ifcorr == True, then Ising_simulation will only calculate correlation function as a function of r and T
+    #else, Ising_simulation will not calculate correlation function but gives the final lattice state, 
+    #final energy, specific heat, and magnetization as a function of T
     lattice = lattice_gerator(n)
     energies = []
     E0 = 0  # initial total energy
@@ -66,8 +71,9 @@ def Ising_simulation(n, steps, J, T, r):
             E0 += Energy(s_k,s_i_sum,J)
     energies.append(E0)
         
-    corr_sigma_i = []
-    corr_sigma_j = []
+    if ifcorr == True:
+        corr_sigma_i = []
+        corr_sigma_j = []
     
     
     for step in range(steps):
@@ -87,26 +93,31 @@ def Ising_simulation(n, steps, J, T, r):
             lattice[i][j] = -lattice[i][j]
             energies.append(energies[-1]+delta_E) # This line will add the energy values for each spin site to a list which will then use to find the avarge energy
             
-            corr_sigma_i.append(lattice[0][0])   # periodical structure ensure a random selection of one lattice point
-            coor_sigma_j.append(lattice[-r][0]) # I am not sure if this is correct
+            if ifcorr == True:
+                corr_sigma_i.append(lattice[0][0])   # periodical structure ensure a random selection of one lattice point
+                coor_sigma_j.append(lattice[-r][0]) # I am not sure if this is correct
 
         
     # Advcice if we should use separete function to do the calculation of the evarage_energy and the evarage_energy^2.
-    Z = np.sum(np.exp(-energies/(k_b*T)))     
-    average_energy = np.sum(np.exp(-energies/(k_b*T))*energies)/Z
-    
-    average_energy_2 = np.sum(np.exp(-(energies)/(k_b*T))*(energies**2))/Z
-    
-    specific_heat = (average_energy_2 - average_energy**2)/(T**2)
-                                                                                 
-    M = Magnetization(lattice)    
+    Z = np.sum(np.exp(-energies/(k_b*T)))       
      
     #We need to add the correlation calculations                                                                             
-    G1 = np.sum(np.exp(-energies/k_b*T)*corr_sigma_i*corr_sigma_j)/Z
-    G2 = (np.sum(np.exp(-energies/k_b*T)*corr_sigma_i)/Z)**2
-    G = G1 - G2    
-                              
-    return lattice, energies[-1], specific_heat, M, G 
+    if ifcorr == True:
+        G1 = np.sum(np.exp(-energies/k_b*T)*corr_sigma_i*corr_sigma_j)/Z
+        G2 = (np.sum(np.exp(-energies/k_b*T)*corr_sigma_i)/Z)**2
+        G = G1 - G2
+        
+        return G
+    
+    else:
+        average_energy = np.sum(np.exp(-energies/(k_b*T))*energies)/Z
+        average_energy_2 = np.sum(np.exp(-(energies)/(k_b*T))*(energies**2))/Z
+        
+        specific_heat = (average_energy_2 - average_energy**2)/(T**2)
+        
+        M = Magnetization(lattice)
+        
+        return lattice, energies[-1], specific_heat, M
 
 def theoratical_Tc(J):
     #Onsage solution of critical temperature
