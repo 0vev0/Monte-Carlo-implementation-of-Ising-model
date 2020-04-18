@@ -6,30 +6,10 @@ import numpy as np
 import scipy.integrate
 import matplotlib.pyplot as plt
 import scipy.special as sc
+import math
+import csv
 
 #Simulation part
-def spin_flip(lattice_state,algorithem):
-    '''
-    For Metropolis algorithem
-    Randomly flip a spin, namely ranmonly choose a lattice point and change the state 
-    of it from +1 to -1 or from -1 to +1 once a time to generate a new state of lattice.
-    For Wolff algorithem
-    Filp spins of a group of lattice points
-    
-    arguments: 
-    lattice_state: the state of lattice that is going to be changed
-    algorithem: M or W, where M denotes Metropolis algorithem, W is Wollf algorithem
-                we firstly need to finish the Metropolis and then use Wolff to optimize
-    
-    return values:
-    new_state: the state of lattice after spin flipping
-    '''
-    return new_state
-
-
-# This is an instruction to the whole project, which shows the basic structure of code and guides the following work.
-# for the functions below, we need to write arguments, return variables and a brief description for each of them.
-# unfinished yet
 
 def lattice_gerator(n): # the lattice will be represnted by a n x n matrix 
 ''' 
@@ -39,22 +19,27 @@ we give the lattice a random initial state by built-in function: np.random.rando
 '''
     return np.random.choice([1, -1], size=(n, n))
 
-
-def spin_flip(): # I dont think we need to do this in a seperate function 
 '''
-Flip a spin, namely change the state of one lattice point from +1 to -1 or from -1 to +1, 
-once a time to generate a new state of lattice.
-'''
-    return
+do this part (optimization) after the whole task is finished
+def spin_flip(lattice_state,algorithem):
+    #For Metropolis algorithem
+    #Randomly flip a spin, namely ranmonly choose a lattice point and change the state 
+    #of it from +1 to -1 or from -1 to +1 once a time to generate a new state of lattice.
+    #For Wolff algorithem
+    #Filp spins of a group of lattice points
+    
+    #arguments: 
+    #lattice_state: the state of lattice that is going to be changed
+    #algorithem: M or W, where M denotes Metropolis algorithem, W is Wollf algorithem
+    #            we firstly need to finish the Metropolis and then use Wolff to optimize
+    
+    #return values:
+    #new_state: the state of lattice after spin flipping
 
-
-def Monte_Carlo(): # This can also be done in the Ising_simulation function 
+    new_state = lattice_state
+    return new_state
 '''
-If the old state of lattice and a new state of lattice are given, use Metropolis Algorithm to determine whether
-we should accept it or not.
-'''
-    return
-
+    
 def Energy(sigma_k,sum_sigma_i,J):  # Double check if this is the correct equation to find the energy for each site.               
 '''
 This function will calculate the energy for each random spin site.
@@ -68,12 +53,8 @@ This fucntion calculate the average magnetization. lat = lattice created in the 
 '''
     return np.sum(lat)/(len(lat))
 
-
+k_b = 1 # Set the actuall bolztman constant if needed
 def Ising_simulation(n, steps, J, T, r):
-    '''
-    '''
-    
-    k_b = 1 # Set the actuall bolztman constant if needed
     
     lattice = lattice_gerator(n)
     energies = []
@@ -114,7 +95,7 @@ def Ising_simulation(n, steps, J, T, r):
     Z = np.sum(np.exp(-energies/(k_b*T)))     
     average_energy = np.sum(np.exp(-energies/(k_b*T))*energies)/Z
     
-    average_energy_2 = np.sum(np.exp(-(energies)/(k_b*T))*(energies**2)/Z
+    average_energy_2 = np.sum(np.exp(-(energies)/(k_b*T))*(energies**2))/Z
     
     specific_heat = (average_energy_2 - average_energy**2)/(T**2)
                                                                                  
@@ -125,8 +106,15 @@ def Ising_simulation(n, steps, J, T, r):
     G2 = (np.sum(np.exp(-energies/k_b*T)*corr_sigma_i)/Z)**2
     G = G1 - G2    
                               
-    return specific_heat, M, G 
+    return lattice, specific_heat, M, G 
 
+def theoratical_Tc(J):
+    #Onsage solution of critical temperature
+    return 2 * J / (k_b * math.log(np.sqrt(2) + 1))
+
+def theoratical_M(J,T):
+    #Onsage solution of magnetization
+    return (1 - (math.sinh(2 * J / (k_b * T))) ** (-4)) ** (1/8)
 
 #Visualization part
 def plot_lattice(lattice_state):
