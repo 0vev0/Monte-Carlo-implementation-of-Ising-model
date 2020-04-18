@@ -106,7 +106,7 @@ def Ising_simulation(n, steps, J, T, r):
     G2 = (np.sum(np.exp(-energies/k_b*T)*corr_sigma_i)/Z)**2
     G = G1 - G2    
                               
-    return lattice, specific_heat, M, G 
+    return lattice, energies[-1], specific_heat, M, G 
 
 def theoratical_Tc(J):
     #Onsage solution of critical temperature
