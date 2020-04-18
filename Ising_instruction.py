@@ -133,6 +133,9 @@ def theoratical_M(J,T):
 #      I'm not sure, but maybe it's better to simulate energy, epecific heat and magenatization in 
 #      different temperature and store them into arrays first and then, draw the plots so that the 
 #      simulation part is not repeated.
+#btw, I'm confused about the difference between 'Transition from T=5' and 'Transition from T=0.1'.
+#If they are different, the simulation part might need some change but it won't influence the visualization
+#part (just do simulation both from 0.1 to 5 and from 5 to 0.1).
 def plot_lattice(lattice_state):
     '''
     plot a 2D gird that shows the state of each lattice point
