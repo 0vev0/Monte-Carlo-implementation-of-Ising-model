@@ -97,6 +97,7 @@ def Ising_simulation(n, steps, J, T, r, ifcorr, ifreset):
 
         
     # Advcice if we should use separete function to do the calculation of the evarage_energy and the evarage_energy^2.
+    energies = np.array(energies)
     Z = np.sum(np.exp(-energies/(k_b*T)))       
      
     #We need to add the correlation calculations                                                                             
