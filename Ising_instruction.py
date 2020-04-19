@@ -95,7 +95,7 @@ def Ising_simulation(n, steps, J, T, r, ifcorr, ifreset):
             
             if ifcorr == True:
                 corr_sigma_i.append(lattice[0][0])   # periodical structure ensure a random selection of one lattice point
-                coor_sigma_j.append(lattice[-r][0]) # I am not sure if this is correct
+                corr_sigma_j.append(lattice[-r][0]) # I am not sure if this is correct
 
         
     # Advcice if we should use separete function to do the calculation of the evarage_energy and the evarage_energy^2.
