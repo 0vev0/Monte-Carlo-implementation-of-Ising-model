@@ -7,7 +7,6 @@ import scipy.integrate
 import matplotlib.pyplot as plt
 import scipy.special as sc
 import math
-import csv
 
 #Simulation part
 
@@ -54,14 +53,19 @@ This fucntion calculate the average magnetization. lat = lattice created in the 
     return np.sum(lat)/(len(lat))
 
 k_b = 1 # Set the actuall bolztman constant if needed
-def Ising_simulation(n, steps, J, T, r, ifcorr):
+lattice = lattice_generator(n)
+def Ising_simulation(n, steps, J, T, r, ifcorr, ifreset):
+    #if ifreset == True, then the grid will be reset in every simulation
+    #else, the lattice will stay on the state as before
+    
     #Calculate correlation function is a hugh burden to computer memory and its temperature range 
     #is different from that of energy, magnetization and specific heat, therefore we use ifcorr to
     #seperate two kinds of simulation:
     #if ifcorr == True, then Ising_simulation will only calculate correlation function as a function of r and T
     #else, Ising_simulation will not calculate correlation function but gives the final lattice state, 
     #final energy, specific heat, and magnetization as a function of T
-    lattice = lattice_gerator(n)
+    if ifreset == True:
+        lattice = lattice_gerator(n)
     energies = []
     E0 = 0  # initial total energy
     for i in range(n):
@@ -128,14 +132,15 @@ def theoratical_M(J,T):
     return (1 - (math.sinh(2 * J / (k_b * T))) ** (-4)) ** (1/8)
 
 #Visualization part
-#Hint: G(T,r) can be written as Ising_simulation(n, steps, J, T, r, ifcorr==True)
-#      lattice, energies[-1], specific_heat, M = Ising_simulation(n, steps, J, T, r=1, ifcorr==False)
+#Hint: G(T,r) can be written as Ising_simulation(n, steps, J, T, r, ifcorr==True,ifreset)
+#      lattice, energies[-1], specific_heat, M = Ising_simulation(n, steps, J, T, r=1, ifcorr==False,ifreset)
 #      I'm not sure, but maybe it's better to simulate energy, epecific heat and magenatization in 
 #      different temperature and store them into arrays first and then, draw the plots so that the 
 #      simulation part is not repeated.
-#btw, I'm confused about the difference between 'Transition from T=5' and 'Transition from T=0.1'.
-#If they are different, the simulation part might need some change but it won't influence the visualization
-#part (just do simulation both from 0.1 to 5 and from 5 to 0.1).
+
+#      For transition from 0.1 to 5 and from 5 to 0.1), set ifreset=False, generate a lattice before simulation,
+#      and then, just simulate it from T=T1 to T=T2
+#      for gridreset, set ifreset=True
 def plot_lattice(lattice_state):
     '''
     plot a 2D gird that shows the state of each lattice point
