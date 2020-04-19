@@ -72,8 +72,8 @@ def Ising_simulation(n, steps, J, T, r, ifcorr, ifreset):
     energies.append(E0)
         
     if ifcorr == True:
-        corr_sigma_i = []
-        corr_sigma_j = []
+        corr_sigma_i = [lattice[0][0]]
+        corr_sigma_j = [lattice[-r][0]]
     
     
     for step in range(steps):
