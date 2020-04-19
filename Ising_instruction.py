@@ -65,7 +65,7 @@ def Ising_simulation(n, steps, J, T, r, ifcorr, ifreset):
     for i in range(n):
         for j in range(n):
             s_k = lattice[i][j]
-            s_i_sum = lattice[i+1][j] + lattice[i][j+1]
+            s_i_sum = lattice[(i+1)%n][j] + lattice[i][(j+1)%n]
             E0 += Energy(s_k,s_i_sum,J)
     energies.append(E0)
         
