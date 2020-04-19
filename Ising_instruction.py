@@ -80,7 +80,7 @@ def Ising_simulation(n, steps, J, T, r, ifcorr, ifreset):
         j = np.random.randint(n)
         
         s_k = lattice[i][j] # This is our random chosen spin site 
-        s_i_sum = lattice[i+1][j] + lattice[i-1][j] + lattice[i][j+1] + lattice[i][j-1] # This is the sum of the neighborin spins for the specific site
+        s_i_sum = lattice[(i+1)%n][j] + lattice[(i-1)%n][j] + lattice[i][(j+1)%n] + lattice[i][(j-1)%n] # This is the sum of the neighborin spins for the specific site
         
         E = Energy(s_k,s_i_sum,J)
         
