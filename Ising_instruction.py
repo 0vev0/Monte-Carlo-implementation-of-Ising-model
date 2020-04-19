@@ -10,12 +10,7 @@ import math
 
 #Simulation part
 
-def lattice_gerator(n): # the lattice will be represnted by a n x n matrix 
-''' 
-The initialization of lattice should be the first step of simulation. In this function, 
-we give the lattice a random initial state by built-in function: np.random.random(), the
-
-'''
+def lattice_generator(n): # the lattice will be represnted by a n x n matrix 
     return np.random.choice([1, -1], size=(n, n))
 
 '''
@@ -53,7 +48,6 @@ This fucntion calculate the average magnetization. lat = lattice created in the 
     return np.sum(lat)/(len(lat))
 
 k_b = 1 # Set the actuall bolztman constant if needed
-lattice = lattice_generator(n)
 def Ising_simulation(n, steps, J, T, r, ifcorr, ifreset):
     #if ifreset == True, then the grid will be reset in every simulation
     #else, the lattice will stay on the state as before
@@ -65,7 +59,7 @@ def Ising_simulation(n, steps, J, T, r, ifcorr, ifreset):
     #else, Ising_simulation will not calculate correlation function but gives the final lattice state, 
     #final energy, specific heat, and magnetization as a function of T
     if ifreset == True:
-        lattice = lattice_gerator(n)
+        lattice = lattice_generator(n)
     energies = []
     E0 = 0  # initial total energy
     for i in range(n):
@@ -138,9 +132,10 @@ def theoratical_M(J,T):
 #      different temperature and store them into arrays first and then, draw the plots so that the 
 #      simulation part is not repeated.
 
-#      For transition from 0.1 to 5 and from 5 to 0.1), set ifreset=False, generate a lattice before simulation,
-#      and then, just simulate it from T=T1 to T=T2
+#      For transition from 0.1 to 5 and from 5 to 0.1), set ifreset=False, generate a lattice with lattice_generator(n)
+#      before simulation, and then, just simulate it from T=T1 to T=T2
 #      for gridreset, set ifreset=True
+
 def plot_lattice(lattice_state):
     '''
     plot a 2D gird that shows the state of each lattice point
