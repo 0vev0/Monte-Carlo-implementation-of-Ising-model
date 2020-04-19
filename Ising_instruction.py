@@ -58,8 +58,10 @@ def Ising_simulation(n, steps, J, T, r, ifcorr, ifreset):
     #if ifcorr == True, then Ising_simulation will only calculate correlation function as a function of r and T
     #else, Ising_simulation will not calculate correlation function but gives the final lattice state, 
     #final energy, specific heat, and magnetization as a function of T
+    global lattice
     if ifreset == True:
         lattice = lattice_generator(n)
+        
     energies = []
     E0 = 0  # initial total energy
     for i in range(n):
@@ -133,8 +135,7 @@ def theoratical_M(J,T):
 #      different temperature and store them into arrays first and then, draw the plots so that the 
 #      simulation part is not repeated.
 
-#      For transition from 0.1 to 5 and from 5 to 0.1), set ifreset=False, generate a lattice with lattice_generator(n)
-#      before simulation, and then, just simulate it from T=T1 to T=T2
+#      For transition from 0.1 to 5 and from 5 to 0.1), set ifreset=False,and simulate it from T=T1 to T=T2
 #      for gridreset, set ifreset=True
 
 def plot_lattice(lattice_state):
