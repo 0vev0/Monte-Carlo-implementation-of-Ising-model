@@ -129,8 +129,8 @@ def theoratical_M(J,T):
     return (1 - (math.sinh(2 * J / (k_b * T))) ** (-4)) ** (1/8)
 
 #Visualization part
-#Hint: G(T,r) can be written as Ising_simulation(n, steps, J, T, r, ifcorr==True,ifreset)
-#      lattice, energies[-1], specific_heat, M = Ising_simulation(n, steps, J, T, r=1, ifcorr==False,ifreset)
+#Hint: G(T,r) can be written as Ising_simulation(n, steps, J, T, r, ifcorr=True,ifreset)
+#      lattice, energies[-1], specific_heat, M = Ising_simulation(n, steps, J, T, r=1, ifcorr=False,ifreset)
 #      I'm not sure, but maybe it's better to simulate energy, epecific heat and magenatization in 
 #      different temperature and store them into arrays first and then, draw the plots so that the 
 #      simulation part is not repeated.
