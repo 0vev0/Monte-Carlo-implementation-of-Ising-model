@@ -50,6 +50,9 @@ This fucntion calculate the average magnetization. lat = lattice created in the 
 k_b = 1 # Set the actuall bolztman constant if needed
 lattice = lattice_generator(n) # a global variable
 def Ising_simulation(n, steps, J, T, r, ifcorr, ifreset):
+    # n = (variable, size of the matrix = lattice), steps = (variable, number of steps for the random spin selection)
+    # J = (Coupling cosntant mostlikely will be taken to be 1), T = Temperature, I dont know what the other variables are
+    
     #if ifreset == True, then the grid will be reset in every simulation
     #else, the lattice will stay on the state as before
     
