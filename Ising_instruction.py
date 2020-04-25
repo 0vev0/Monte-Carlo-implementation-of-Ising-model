@@ -152,9 +152,11 @@ def plot_lattice(lattice_state):
     lattice_state
     
     return value:
-    none
+    ax (a heat map of the grids); need a plt.show()
     '''
-    return
+    fig, ax = plt.subplots(1,1)
+    ax = ax.imshow(lattice_state, cmap='gray')
+    return ax
 
 def plot_energy(energy_data):
     '''
