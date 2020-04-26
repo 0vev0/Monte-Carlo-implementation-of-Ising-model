@@ -204,12 +204,21 @@ def plot_specific_heat(specific_heat_data1, temperature_data1, specific_heat_dat
     ax.legend()
     return ax
 
-def plot_correlation_function(correlation_function_data):
+def plot_correlation_function(correlation_function_data1, correlation_function_data2, correlation_function_data3, correlation_function_data4, correlation_function_data5, r_values, T1, T2, T3, T4, T5):
     '''
     plot the correlation function as G(r), G vs. r, with r being the # units distance between two spins
     plot at many different T's
     also a plot of many curves
+    the correlation_function_data will be from the Ising Simulation
+    I'm supposing that we are going to have 5 temperatures
     '''
     fig, ax = plt.subplots(1,1)
-    ax = ax.plot(
-    return
+    ax = ax.plot(r_values, correlation_function_data1, color='b', label=str(T=T1))
+    ax = ax.plot(r_values, correlation_function_data2, color='g', label=str(T=T2))
+    ax = ax.plot(r_values, correlation_function_data3, color='r', label=str(T=T3))
+    ax = ax.plot(r_values, correlation_function_data4, color='m', label=str(T=T4))
+    ax = ax.plot(r_values, correlation_function_data5, color='y', label=str(T=T5))
+    ax.set_title('Correlation function G(r) at different temperatures')
+    ax.set_xlabel('r')
+    ax.set_ylabel('G')
+    return ax
