@@ -159,7 +159,7 @@ lattice_state = [] # how many figures of lattice state do we need?
 
 def data(j, T_range, N_T, r_range, N_r):
     # use global variable so that once this funciton is run, all data are recorded in these variables 
-    # so that we don't need to return them
+    # therefore, the function has no return value
     global energy_data1, specific_heat_data1, magnetization_data1, \
            energy_data2, specific_heat_data2, magnetization_data2, \
            energy_data3, specific_heat_data3, magnetization_data3, \
