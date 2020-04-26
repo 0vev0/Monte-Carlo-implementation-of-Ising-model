@@ -202,16 +202,16 @@ def data(j, T_range, N_T, r_range, N_r):
     T4 = 0.4, correlation_function_data4 = []
     T5 = 0.5, correlation_function_data5 = []
     
-    for r in r_values:
-        G = Ising_simulation(n=10, steps=100000, J=1, T=T1, r=1, ifcorr=True, ifreset=True)
+    for R in r_values:
+        G = Ising_simulation(n=10, steps=100000, J=j, T=T1, r=R, ifcorr=True, ifreset=True)
         correlation_function_data1.append(G)
-        G = Ising_simulation(n=10, steps=100000, J=1, T=T2, r=1, ifcorr=True, ifreset=True)
+        G = Ising_simulation(n=10, steps=100000, J=j, T=T2, r=R, ifcorr=True, ifreset=True)
         correlation_function_data2.append(G)
-        G = Ising_simulation(n=10, steps=100000, J=1, T=T3, r=1, ifcorr=True, ifreset=True)
+        G = Ising_simulation(n=10, steps=100000, J=j, T=T3, r=R, ifcorr=True, ifreset=True)
         correlation_function_data3.append(G)
-        G = Ising_simulation(n=10, steps=100000, J=1, T=T4, r=1, ifcorr=True, ifreset=True)
+        G = Ising_simulation(n=10, steps=100000, J=j, T=T4, r=R, ifcorr=True, ifreset=True)
         correlation_function_data4.append(G)
-        G = Ising_simulation(n=10, steps=100000, J=1, T=T5, r=1, ifcorr=True, ifreset=True)
+        G = Ising_simulation(n=10, steps=100000, J=j, T=T5, r=R, ifcorr=True, ifreset=True)
         correlation_function_data5.append(G)
     return
 
