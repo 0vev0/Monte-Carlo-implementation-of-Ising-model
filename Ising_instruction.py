@@ -153,10 +153,6 @@ energy_data3 = []       # from high T to low T
 specific_heat_data3 = []
 magnetization_data3 = []
 
-T_range = [0.1, 3] # this value needs to be checked, choose a range that covers Tc
-temperature_data = np.linspace(T_range[0],T_range[1], N_T)
-inverse_temperature_data = np.linspace(T_range[1],T_range[0], N_T)
-
 Tc = 0 # define a variable Tc, whose value is not 0 but we can 
 
 lattice_state = [] # how many figures of lattice state do we need?
@@ -172,6 +168,9 @@ def data(j, T_range, N_T, r_range, N_r):
     energy_data1 = [] and specific_heat_data1 = [] and magnetization_data1 = []
     energy_data2 = [] and specific_heat_data2 = [] and magnetization_data2 = []
     energy_data3 = [] and specific_heat_data3 = [] and magnetization_data3 = []
+
+    temperature_data = np.linspace(T_range[0],T_range[1], N_T)
+    inverse_temperature_data = np.linspace(T_range[1],T_range[0], N_T)  
     
     Tc = theoratical_Tc(J=j)
     
