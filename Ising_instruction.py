@@ -211,6 +211,7 @@ def data(j, T_range, N_T, r_range, N_r):
         G = Ising_simulation(n=15, steps=100000, J=1, T=T5, r=1, ifcorr=True, ifreset=True)
         correlation_function_data5.append(G)
     return
+
 def plot_lattice(lattice_state):
     '''
     plot a 2D gird that shows the state of each lattice point
