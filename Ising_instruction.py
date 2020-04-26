@@ -156,38 +156,67 @@ def plot_lattice(lattice_state):
     '''
     fig, ax = plt.subplots(1,1)
     ax = ax.imshow(lattice_state, cmap='gray')
-    return ax
+    return plt.show()
 
-def plot_energy(energy_data, temperature_data, method):
+def plot_energy(energy_data1, energy_data2, energy_data3, temperature_data1, temperature_data2, temperature_data3, method1, method2, method3): 
     '''
     plot of spins as a function of temperature
     The example has grid resets, plotting from high temperature state and plotting from low temperature state
     Comparison of the graphs of the three different methods: grid reset, going from high to low, and going from low to high
     multiple trials for each method
     '''
-    fig, ax = plt.subplots(1,1)
-    ax = ax.scatter(temperature_data, energy_data, label=str(method))
-    ax.set_title('Average energy of spins vs. temperature')
-    ax.set_xlabel('T')
-    ax.set_ylabel('E')
-    ax.legend()
-    return ax
+    fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2, figsize=(12.8, 9.6))
+    ax1.scatter(temperature_data1, energy_data1, color='g', label=method1)
+    ax1.scatter(temperature_data2, energy_data2, color='b', label=method2)
+    ax1.scatter(temperature_data3, energy_data3, color='r', label=method3)
+    ax1.set_xlabel('T')
+    ax1.set_ylabel('E')
+    ax1.legend()
+    ax2.scatter(temperature_data1, energy_data1, color='g', label=method1)
+    ax2.set_xlabel('T')
+    ax2.set_ylabel('E')
+    ax2.legend()
+    ax3.scatter(temperature_data2, energy_data2, color='b', label=method2)
+    ax3.set_xlabel('T')
+    ax3.set_ylabel('E')
+    ax3.legend()
+    ax4.scatter(temperature_data3, energy_data3, color='r', label=method3)
+    ax4.set_xlabel('T')
+    ax4.set_ylabel('E')
+    ax4.legend()
+    return plt.show()
 
-def plot_magnetization(magnetization_data, temperature_data, method, Tc):
+def plot_magnetization(magnetization_data1, magnetization_data2, magnetization_data3, temperature_data1, temperature_data2, temperature_data3, method1, method2, method3, Tc):
     '''
     plot a graph with average magnetization of spins as a function of the temperature
     there are going to be many lines of different lattice sizes (labeled as n, but really is n by n)
     The example compares grid resets, analytical result, going from high to low, and going from low to high
     '''
-    fig, ax = plt.subplots(1,1)
-    ax = ax.scatter(temperature_data, magnetization_data, label=str(method))
-    xaxis = np.linspace(0.1, Tc, 100)
-    ax = ax.plot(xaxis, theoretical_M(J, xaxis), label='Analytical)
-    ax.set_title('Average magnetization of spins vs. temperature')
-    ax.set_xlabel('T')
-    ax.set_ylabel('M')
-    ax.legend()
-    return ax
+    fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2, figsize=(12.8, 9.6))
+    xaxis = np.linspace(0.1, Tc, endpoint=False, 100)
+    ax1.scatter(temperature_data1, magnetization_data1, color='g', label=method1)
+    ax1.scatter(temperature_data2, magnetization_data2, color='b', label=method2)
+    ax1.scatter(temperature_data3, magnetization_data3, color='r', label=method3)
+    ax1.plot(xaxis, theoretical_M(J, xaxis), color='y', label='analytical')
+    ax1.set_xlabel('T')
+    ax1.set_ylabel('M')
+    ax1.legend()
+    ax2.scatter(temperature_data1, magnetization_data1, color='g', label=method1)
+    ax2.plot(xaxis, theoretical_M(J, xaxis), color='y', label='analytical')
+    ax2.set_xlabel('T')
+    ax2.set_ylabel('M')
+    ax2.legend()
+    ax3.scatter(temperature_data2, magnetization_data2, color='b', label=method2)
+    ax3.plot(xaxis, theoretical_M(J, xaxis), color='y', label='analytical')
+    ax3.set_xlabel('T')
+    ax3.set_ylabel('M')
+    ax3.legend()
+    ax4.scatter(temperature_data3, magnetization_data3, color='r', label=method3)
+    ax4.plot(xaxis, theoretical_M(J, xaxis), color='y', label='analytical')
+    ax4.set_xlabel('T')
+    ax4.set_ylabel('M')
+    ax4.legend()
+    return plt.show()
 
 def plot_specific_heat(specific_heat_data1, temperature_data1, specific_heat_data2, temperature_data2, method1, method2):
     '''
@@ -196,13 +225,13 @@ def plot_specific_heat(specific_heat_data1, temperature_data1, specific_heat_dat
     two curves on one graph
     '''
     fig, ax = plt.subplots(1,1)
-    ax = ax.scatter(temperature_data1, specific_heat_data1, label=str(method1))
-    ax = ax.scatter(temperature_data2, specific_heat_data2, label=str(method2))
+    ax.scatter(temperature_data1, specific_heat_data1, label=str(method1))
+    ax.scatter(temperature_data2, specific_heat_data2, label=str(method2))
     ax.set_title('Specific heat of spins vs. temperature')
     ax.set_xlabel('T')
     ax.set_ylabel($C_v$)
     ax.legend()
-    return ax
+    return plt.show()
 
 def plot_correlation_function(correlation_function_data1, correlation_function_data2, correlation_function_data3, correlation_function_data4, correlation_function_data5, r_values, T1, T2, T3, T4, T5):
     '''
@@ -213,12 +242,12 @@ def plot_correlation_function(correlation_function_data1, correlation_function_d
     I'm supposing that we are going to have 5 temperatures
     '''
     fig, ax = plt.subplots(1,1)
-    ax = ax.plot(r_values, correlation_function_data1, color='b', label=str(T=T1))
-    ax = ax.plot(r_values, correlation_function_data2, color='g', label=str(T=T2))
-    ax = ax.plot(r_values, correlation_function_data3, color='r', label=str(T=T3))
-    ax = ax.plot(r_values, correlation_function_data4, color='m', label=str(T=T4))
-    ax = ax.plot(r_values, correlation_function_data5, color='y', label=str(T=T5))
+    ax.plot(r_values, correlation_function_data1, color='b', label=str(T=T1))
+    ax.plot(r_values, correlation_function_data2, color='g', label=str(T=T2))
+    ax.plot(r_values, correlation_function_data3, color='r', label=str(T=T3))
+    ax.plot(r_values, correlation_function_data4, color='m', label=str(T=T4))
+    ax.plot(r_values, correlation_function_data5, color='y', label=str(T=T5))
     ax.set_title('Correlation function G(r) at different temperatures')
     ax.set_xlabel('r')
     ax.set_ylabel('G')
-    return ax
+    return plt.show()
