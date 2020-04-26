@@ -141,7 +141,76 @@ def theoratical_M(J,T):
 
 #      For transition from 0.1 to 5 and from 5 to 0.1), set ifreset=False,and simulate it from T=T1 to T=T2
 #      for gridreset, set ifreset=True
+energy_data1 = []       # reset grid method
+specific_heat_data1 = []
+magnetization_data1 = []
 
+energy_data2 = []       # from low T to high T
+specific_heat_data2 = []
+magnetization_data2 = []
+    
+energy_data3 = []       # from high T to low T
+specific_heat_data3 = []
+magnetization_data3 = []
+
+T_range = [0.1, 3] # this value needs to be checked, choose a range that covers Tc
+temperature_data = np.linspace(T_range[0],T_range[1], N_T)
+inverse_temperature_data = np.linspace(T_range[1],T_range[0], N_T)
+
+Tc = 0 # define a variable Tc, whose value is not 0 but we can 
+
+def data(j, T_range, N_T, r_range, N_r):
+    # use global variable so that once this funciton is run, all data are recorded in these variables 
+    # so that we don't need to return them
+    global energy_data1, specific_heat_data1, magnetization_data1, \
+           energy_data2, specific_heat_data2, magnetization_data2, \
+           energy_data3, specific_heat_data3, magnetization_data3, \
+           Tc
+    # clear all the array
+    energy_data1 = [] and specific_heat_data1 = [] and magnetization_data1 = []
+    energy_data2 = [] and specific_heat_data2 = [] and magnetization_data2 = []
+    energy_data3 = [] and specific_heat_data3 = [] and magnetization_data3 = []
+    
+    Tc = theoratical_Tc(J=j)
+
+    for t in temperature_data:
+        _, energy, specific_heat, M = Ising_simulation(n=15, steps=100000, J=j, T=t, r=1, ifcorr=False, ifreset=True)
+        energy_data1.append(energy)
+        specific_heat_data1.append(specific_heat)
+        magnetization_data1.append(M)
+        
+    for t in temperature_data:
+        _, energy, specific_heat, M = Ising_simulation(n=15, steps=100000, J=j, T=t, r=1, ifcorr=False, ifreset=False)
+        energy_data2.append(energy)
+        specific_heat_data2.append(specific_heat)
+        magnetization_data2.append(M)
+    
+    for t in inverse_temperature_data:
+        _, energy, specific_heat, M = Ising_simulation(n=15, steps=100000, J=j, T=t, r=1, ifcorr=False, ifreset=False)
+        energy_data2.append(energy)
+        specific_heat_data2.append(specific_heat)
+        magnetization_data2.append(M)
+        
+    r_values = np.linspace(r_range[0],r_range[1], N_r)
+    #temperature below can be changed
+    T1 = 0.1, correlation_function_data1 = []
+    T2 = 0.2, correlation_function_data2 = []
+    T3 = 0.3, correlation_funciton_data3 = []
+    T4 = 0.4, correlation_function_data4 = []
+    T5 = 0.5, correlation_function_data5 = []
+    
+    for r in r_values:
+        G = Ising_simulation(n=15, steps=100000, J=1, T=T1, r=1, ifcorr=True, ifreset=True)
+        correlation_function_data1.append(G)
+        G = Ising_simulation(n=15, steps=100000, J=1, T=T2, r=1, ifcorr=True, ifreset=True)
+        correlation_function_data2.append(G)
+        G = Ising_simulation(n=15, steps=100000, J=1, T=T3, r=1, ifcorr=True, ifreset=True)
+        correlation_function_data3.append(G)
+        G = Ising_simulation(n=15, steps=100000, J=1, T=T4, r=1, ifcorr=True, ifreset=True)
+        correlation_function_data4.append(G)
+        G = Ising_simulation(n=15, steps=100000, J=1, T=T5, r=1, ifcorr=True, ifreset=True)
+        correlation_function_data5.append(G)
+    return
 def plot_lattice(lattice_state):
     '''
     plot a 2D gird that shows the state of each lattice point
