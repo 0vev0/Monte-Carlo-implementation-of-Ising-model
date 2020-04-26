@@ -158,33 +158,58 @@ def plot_lattice(lattice_state):
     ax = ax.imshow(lattice_state, cmap='gray')
     return ax
 
-def plot_energy(energy_data):
+def plot_energy(energy_data, temperature_data, method):
     '''
-    plot average energy of spins as a function of temperature
+    plot of spins as a function of temperature
     The example has grid resets, plotting from high temperature state and plotting from low temperature state
     Comparison of the graphs of the three different methods: grid reset, going from high to low, and going from low to high
     multiple trials for each method
     '''
-    return
+    fig, ax = plt.subplots(1,1)
+    ax = ax.scatter(temperature_data, energy_data, label=str(method))
+    ax.set_title('Average energy of spins vs. temperature')
+    ax.set_xlabel('T')
+    ax.set_ylabel('E')
+    ax.legend()
+    return ax
 
-def plot_magnetization(magnetization_data):
+def plot_magnetization(magnetization_data, temperature_data, method, Tc):
     '''
     plot a graph with average magnetization of spins as a function of the temperature
     there are going to be many lines of different lattice sizes (labeled as n, but really is n by n)
     The example compares grid resets, analytical result, going from high to low, and going from low to high
     '''
-    return
+    fig, ax = plt.subplots(1,1)
+    ax = ax.scatter(temperature_data, magnetization_data, label=str(method))
+    xaxis = np.linspace(0.1, Tc, 100)
+    ax = ax.plot(xaxis, theoretical_M(J, xaxis), label='Analytical)
+    ax.set_title('Average magnetization of spins vs. temperature')
+    ax.set_xlabel('T')
+    ax.set_ylabel('M')
+    ax.legend()
+    return ax
 
-def plot_specific_heat(specific_heat_data):
+def plot_specific_heat(specific_heat_data1, temperature_data1, specific_heat_data2, temperature_data2, method1, method2):
     '''
     plot specific heat spins as a function of temperature
     don't use the grid reset method
+    two curves on one graph
     '''
-    return
+    fig, ax = plt.subplots(1,1)
+    ax = ax.scatter(temperature_data1, specific_heat_data1, label=str(method1))
+    ax = ax.scatter(temperature_data2, specific_heat_data2, label=str(method2))
+    ax.set_title('Specific heat of spins vs. temperature')
+    ax.set_xlabel('T')
+    ax.set_ylabel($C_v$)
+    ax.legend()
+    return ax
 
 def plot_correlation_function(correlation_function_data):
     '''
     plot the correlation function as G(r), G vs. r, with r being the # units distance between two spins
     plot at many different T's
+    also a plot of many curves
     '''
+    fig, ax = plt.subplots(1,1)
+    ax = ax.plot(
     return
