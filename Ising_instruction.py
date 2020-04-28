@@ -210,12 +210,12 @@ def magnetization_data(j, T_range, N_T, method):
 
 def correlation_function_data(j, t, r_range, N_r):
     r_values = np.linspace(r_range[0],r_range[1], N_r)
-    correlation_function_data = []
+    CF_data = []
     
     for R in r_values:
         G = Ising_simulation(n=10, steps=100000, J=j, T=t, r=R, ifcorr=True, ifreset=True)
         correlation_function_data.append(G)
-    return correlation_function_data
+    return r_values, CF_data
 
 def plot_lattice(lattice_state):
     '''
