@@ -160,77 +160,81 @@ Tc = 0 # define a variable Tc, whose value is not 0 but we can
 
 lattice_state = [] # how many figures of lattice state do we need?
 
-def data(j, T_range, N_T, r_range, N_r):
-    # use global variable so that once this funciton is run, all data are recorded in these variables 
-    # therefore, the function has no return value
-    global energy_data1, specific_heat_data1, magnetization_data1, \
-           energy_data2, specific_heat_data2, magnetization_data2, \
-           energy_data3, specific_heat_data3, magnetization_data3, \
-           correlation_function_data1, correlation_function_data2, correlation_function_data3, \
-           Tc, lattice_state
-    # clear all the array
-    energy_data1 = []       # reset grid method
-    specific_heat_data1 = []
-    magnetization_data1 = []
-
-    energy_data2 = []       # from low T to high T
-    specific_heat_data2 = []
-    magnetization_data2 = []
+def lattice_state_data(j, t):
+    lattice,_,_,_ =  Ising_simulation(n=10, steps=100000, J=j, T=t, r=1, ifcorr=False, ifreset=True)
+    return lattice
     
-    energy_data3 = []       # from high T to low T
-    specific_heat_data3 = []
-    magnetization_data3 = []
-
-    temperature_data = np.linspace(T_range[0],T_range[1], N_T)
-    inverse_temperature_data = np.linspace(T_range[1],T_range[0], N_T)  
+def energy_data(j, T_range, N_T, method):
+    E_data = []
     
-    Tc = theoratical_Tc(J=j)
-    
-    lattice_state, _, _, _ = Ising_simulation(n=10, steps=100000, J=j, T=0.1, r=1, ifcorr=False, ifreset=True)
-    
-    for t in temperature_data:
-        _, energy, specific_heat, M = Ising_simulation(n=10, steps=100000, J=j, T=t, r=1, ifcorr=False, ifreset=True)
-        energy_data1.append(energy)
-        specific_heat_data1.append(specific_heat)
-        magnetization_data1.append(M)
+    if method == 1: #reset 
+        T_data = np.linspace(T_range[0],T_range[1], N_T)
+        IF = True
+    else if method == 1: # low T to high T
+        T_data = np.linspace(T_range[0],T_range[1], N_T)
+        IF = False
+    else if method == 3: # high T to low T
+        T_data = np.linspace(T_range[1],T_range[0], N_T)
+        IF = False
+    else:
+        print('wrong input, method == 1, 2 or 3')
+        return
+    for t in T_data:
+        _, energy, _, _ = Ising_simulation(n=10, steps=100000, J=j, T=t, r=1, ifcorr=False, ifreset=IF)
+        E_data.append(energy)
         
-    for t in temperature_data:
-        _, energy, specific_heat, M = Ising_simulation(n=10, steps=100000, J=j, T=t, r=1, ifcorr=False, ifreset=False)
-        energy_data2.append(energy)
-        specific_heat_data2.append(specific_heat)
-        magnetization_data2.append(M)
+    return T_data, E_data
+
+def specific_heat_data(j, T_range, N_T, method):
+    SH_data = []
     
-    for t in inverse_temperature_data:
-        _, energy, specific_heat, M = Ising_simulation(n=10, steps=100000, J=j, T=t, r=1, ifcorr=False, ifreset=False)
-        energy_data2.append(energy)
-        specific_heat_data2.append(specific_heat)
-        magnetization_data2.append(M)
+    if method == 1: #reset 
+        T_data = np.linspace(T_range[0],T_range[1], N_T)
+        IF = True
+    else if method == 1: # low T to high T
+        T_data = np.linspace(T_range[0],T_range[1], N_T)
+        IF = False
+    else if method == 3: # high T to low T
+        T_data = np.linspace(T_range[1],T_range[0], N_T)
+        IF = False
+    else:
+        print('wrong input, method == 1, 2 or 3')
+        return
+    for t in T_data:
+        _, _, specific_heat, _ = Ising_simulation(n=10, steps=100000, J=j, T=t, r=1, ifcorr=False, ifreset=IF)
+        SH_data.append(specific_heat)
         
+    return T_data, SH_data
+
+def magnetization_data(j, T_range, N_T):
+    M_data = []
+    
+    if method == 1: #reset 
+        T_data = np.linspace(T_range[0],T_range[1], N_T)
+        IF = True
+    else if method == 1: # low T to high T
+        T_data = np.linspace(T_range[0],T_range[1], N_T)
+        IF = False
+    else if method == 3: # high T to low T
+        T_data = np.linspace(T_range[1],T_range[0], N_T)
+        IF = False
+    else:
+        print('wrong input, method == 1, 2 or 3')
+        return
+    for t in T_data:
+        _, _, _, magnetization = Ising_simulation(n=10, steps=100000, J=j, T=t, r=1, ifcorr=False, ifreset=IF)
+        M_data.append(magnetization)
+        
+    return T_data, M_data
+
+def correlation_function_data(j, t, r_range, N_r):
     r_values = np.linspace(r_range[0],r_range[1], N_r)
-    #temperature below can be changed
-    T1 = 0.1
-    correlation_function_data1 = []
-    T2 = 0.2
-    correlation_function_data2 = []
-    T3 = 0.3
-    correlation_funciton_data3 = []
-    T4 = 0.4
-    correlation_function_data4 = []
-    T5 = 0.5
-    correlation_function_data5 = []
+    correlation_function_data = []
     
     for R in r_values:
-        G = Ising_simulation(n=10, steps=100000, J=j, T=T1, r=R, ifcorr=True, ifreset=True)
-        correlation_function_data1.append(G)
-        G = Ising_simulation(n=10, steps=100000, J=j, T=T2, r=R, ifcorr=True, ifreset=True)
-        correlation_function_data2.append(G)
-        G = Ising_simulation(n=10, steps=100000, J=j, T=T3, r=R, ifcorr=True, ifreset=True)
-        correlation_function_data3.append(G)
-        G = Ising_simulation(n=10, steps=100000, J=j, T=T4, r=R, ifcorr=True, ifreset=True)
-        correlation_function_data4.append(G)
-        G = Ising_simulation(n=10, steps=100000, J=j, T=T5, r=R, ifcorr=True, ifreset=True)
-        correlation_function_data5.append(G)
-    return
+        G = Ising_simulation(n=10, steps=100000, J=j, T=t, r=R, ifcorr=True, ifreset=True)
+        correlation_function_data.append(G)
+    return correlation_function_data
 
 def plot_lattice(lattice_state):
     '''
