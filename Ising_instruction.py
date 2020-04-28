@@ -141,25 +141,6 @@ def theoratical_M(J,T):
 
 #      For transition from 0.1 to 5 and from 5 to 0.1), set ifreset=False,and simulate it from T=T1 to T=T2
 #      for gridreset, set ifreset=True
-energy_data1 = []       # reset grid method
-specific_heat_data1 = []
-magnetization_data1 = []
-correlation_function_data1 = []
-
-energy_data2 = []       # from low T to high T
-specific_heat_data2 = []
-magnetization_data2 = []
-correlation_function_data2 = []
-    
-energy_data3 = []       # from high T to low T
-specific_heat_data3 = []
-magnetization_data3 = []
-correlation_function_data3 = []
-
-Tc = 0 # define a variable Tc, whose value is not 0 but we can 
-
-lattice_state = [] # how many figures of lattice state do we need?
-
 def lattice_state_data(j, t):
     lattice,_,_,_ =  Ising_simulation(n=10, steps=100000, J=j, T=t, r=1, ifcorr=False, ifreset=True)
     return lattice
@@ -206,7 +187,7 @@ def specific_heat_data(j, T_range, N_T, method):
         
     return T_data, SH_data
 
-def magnetization_data(j, T_range, N_T):
+def magnetization_data(j, T_range, N_T, method):
     M_data = []
     
     if method == 1: #reset 
