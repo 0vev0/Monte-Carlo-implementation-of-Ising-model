@@ -48,7 +48,7 @@ This fucntion calculate the average magnetization. lat = lattice created in the 
     return np.sum(lat)/(len(lat))
 
 k_b = 1 # Set the actuall bolztman constant if needed
-lattice = lattice_generator(n) # a global variable
+lattice = lattice_generator(n=10) # a global variable
 def Ising_simulation(n, steps, J, T, r, ifcorr, ifreset):
     # n = (variable, size of the matrix = lattice), steps = (variable, number of steps for the random spin selection)
     # J = (Coupling cosntant mostlikely will be taken to be 1), T = Temperature, I dont know what the other variables are
@@ -144,14 +144,17 @@ def theoratical_M(J,T):
 energy_data1 = []       # reset grid method
 specific_heat_data1 = []
 magnetization_data1 = []
+correlation_function_data1 = []
 
 energy_data2 = []       # from low T to high T
 specific_heat_data2 = []
 magnetization_data2 = []
+correlation_function_data2 = []
     
 energy_data3 = []       # from high T to low T
 specific_heat_data3 = []
 magnetization_data3 = []
+correlation_function_data3 = []
 
 Tc = 0 # define a variable Tc, whose value is not 0 but we can 
 
@@ -163,11 +166,20 @@ def data(j, T_range, N_T, r_range, N_r):
     global energy_data1, specific_heat_data1, magnetization_data1, \
            energy_data2, specific_heat_data2, magnetization_data2, \
            energy_data3, specific_heat_data3, magnetization_data3, \
+           correlation_function_data1, correlation_function_data2, correlation_function_data3, \
            Tc, lattice_state
     # clear all the array
-    energy_data1 = [] and specific_heat_data1 = [] and magnetization_data1 = []
-    energy_data2 = [] and specific_heat_data2 = [] and magnetization_data2 = []
-    energy_data3 = [] and specific_heat_data3 = [] and magnetization_data3 = []
+    energy_data1 = []       # reset grid method
+    specific_heat_data1 = []
+    magnetization_data1 = []
+
+    energy_data2 = []       # from low T to high T
+    specific_heat_data2 = []
+    magnetization_data2 = []
+    
+    energy_data3 = []       # from high T to low T
+    specific_heat_data3 = []
+    magnetization_data3 = []
 
     temperature_data = np.linspace(T_range[0],T_range[1], N_T)
     inverse_temperature_data = np.linspace(T_range[1],T_range[0], N_T)  
@@ -196,11 +208,16 @@ def data(j, T_range, N_T, r_range, N_r):
         
     r_values = np.linspace(r_range[0],r_range[1], N_r)
     #temperature below can be changed
-    T1 = 0.1, correlation_function_data1 = []
-    T2 = 0.2, correlation_function_data2 = []
-    T3 = 0.3, correlation_funciton_data3 = []
-    T4 = 0.4, correlation_function_data4 = []
-    T5 = 0.5, correlation_function_data5 = []
+    T1 = 0.1
+    correlation_function_data1 = []
+    T2 = 0.2
+    correlation_function_data2 = []
+    T3 = 0.3
+    correlation_funciton_data3 = []
+    T4 = 0.4
+    correlation_function_data4 = []
+    T5 = 0.5
+    correlation_function_data5 = []
     
     for R in r_values:
         G = Ising_simulation(n=10, steps=100000, J=j, T=T1, r=R, ifcorr=True, ifreset=True)
@@ -302,7 +319,7 @@ def plot_specific_heat(specific_heat_data1, temperature_data1, specific_heat_dat
     ax.scatter(temperature_data2, specific_heat_data2, label=str(method2))
     ax.set_title('Specific heat of spins vs. temperature')
     ax.set_xlabel('T')
-    ax.set_ylabel($C_v$)
+    ax.set_ylabel('$C_v$')
     ax.legend()
     return plt.show()
 
