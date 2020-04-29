@@ -188,13 +188,16 @@ def plot_lattice(lattice_state):
     return plt.show()
 
 def plot_energy(energy_data1, energy_data2, energy_data3, temperature_data1, temperature_data2, temperature_data3, method1, method2, method3): 
-    fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2, figsize=(12.8, 9.6))
+    ###makes four subplots available for graph; loading all three sets of data so I can graph in one fell swoop
+    fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2, figsize=(12.8, 9.6)) ###set figure size so the graph doesn't
+    ###ax1 is overall graph, comparison of all three methods
     ax1.scatter(temperature_data1, energy_data1, color='g', label=method1)
     ax1.scatter(temperature_data2, energy_data2, color='b', label=method2)
     ax1.scatter(temperature_data3, energy_data3, color='r', label=method3)
     ax1.set_xlabel('T')
     ax1.set_ylabel('E')
     ax1.legend()
+    ###the other 3 graphs are of the individual methods
     ax2.scatter(temperature_data1, energy_data1, color='g', label=method1)
     ax2.set_xlabel('T')
     ax2.set_ylabel('E')
@@ -210,8 +213,11 @@ def plot_energy(energy_data1, energy_data2, energy_data3, temperature_data1, tem
     return plt.show()
 
 def plot_magnetization(magnetization_data1, magnetization_data2, magnetization_data3, temperature_data1, temperature_data2, temperature_data3, method1, method2, method3, Tc):
+    ###also load all data sets for overall graph
     fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2, figsize=(12.8, 9.6))
+    ###Since this has analytical function, we need to define an x axis to just graph the analytical function with
     xaxis = np.linspace(0.1, Tc, num=100, endpoint=False)
+    ###ax1 is overall
     ax1.scatter(temperature_data1, magnetization_data1, color='g', label=method1)
     ax1.scatter(temperature_data2, magnetization_data2, color='b', label=method2)
     ax1.scatter(temperature_data3, magnetization_data3, color='r', label=method3)
@@ -219,6 +225,7 @@ def plot_magnetization(magnetization_data1, magnetization_data2, magnetization_d
     ax1.set_xlabel('T')
     ax1.set_ylabel('M')
     ax1.legend()
+    ###ax2-4 are individual graphs
     ax2.scatter(temperature_data1, magnetization_data1, color='g', label=method1)
     ax2.plot(xaxis, theoretical_M(J, xaxis), color='y', label='analytical')
     ax2.set_xlabel('T')
@@ -238,6 +245,8 @@ def plot_magnetization(magnetization_data1, magnetization_data2, magnetization_d
 
 def plot_specific_heat(specific_heat_data1, temperature_data1, specific_heat_data2, temperature_data2, method1, method2):
     fig, ax = plt.subplots(1,1)
+    ###We are not doing specific heat graphing for grid reset method, so there's only two loaded data sets
+    ###Only one graph since we are comparing the two on one graph
     ax.scatter(temperature_data1, specific_heat_data1, label=str(method1))
     ax.scatter(temperature_data2, specific_heat_data2, label=str(method2))
     ax.set_title('Specific heat of spins vs. temperature')
@@ -248,6 +257,7 @@ def plot_specific_heat(specific_heat_data1, temperature_data1, specific_heat_dat
 
 def plot_correlation_function(correlation_function_data1, correlation_function_data2, correlation_function_data3, correlation_function_data4, correlation_function_data5, r_values, T1, T2, T3, T4, T5):
     fig, ax = plt.subplots(1,1)
+    ###On one graph, there are multiple data sets because we are comparing the G(r) vs r at different temperatures
     ax.plot(r_values, correlation_function_data1, color='b', label=str(T=T1))
     ax.plot(r_values, correlation_function_data2, color='g', label=str(T=T2))
     ax.plot(r_values, correlation_function_data3, color='r', label=str(T=T3))
