@@ -46,7 +46,6 @@ def Ising_simulation(n, steps, J, T, r, ifcorr, ifreset):
             s_i_sum = lattice[(i+1)%n][j] + lattice[i][(j+1)%n]
             E0 += Energy(s_k,s_i_sum,J)
     energies.append(E0)
-    print('zero energy = {}\n'.format(E0))
         
     if ifcorr == True:
         corr_sigma_i = [lattice[0][0]]
@@ -78,7 +77,6 @@ def Ising_simulation(n, steps, J, T, r, ifcorr, ifreset):
     # Advcice if we should use separete function to do the calculation of the evarage_energy and the evarage_energy^2.
     energies = np.array(energies)
     energies2 = energies - np.ones(len(energies))*energies[-1]
-    print(energies2)
     Z = np.sum(np.exp(-energies2/(k_b*T)))       
      
     #We need to add the correlation calculations                                                                             
