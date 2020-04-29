@@ -47,7 +47,7 @@ This fucntion calculate the average magnetization. lat = lattice created in the 
 '''
     return np.sum(lat)/(len(lat))
 
-k_b = 1.38e-23 # Set the actuall bolztman constant if needed
+k_b = 1 # Set the actuall bolztman constant if needed
 lattice = lattice_generator(n=10) # a global variable
 def Ising_simulation(n, steps, J, T, r, ifcorr, ifreset):
     # n = (variable, size of the matrix = lattice), steps = (variable, number of steps for the random spin selection)
