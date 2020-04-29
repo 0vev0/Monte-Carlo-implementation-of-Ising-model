@@ -93,9 +93,9 @@ def Ising_simulation(n, steps, J, T, r, ifcorr, ifreset):
         
         specific_heat = (average_energy_2 - average_energy**2)/(T**2)
         
-        M = Magnetization(lattice)
+        M = Magnetization(lattice)/n**2
         
-        return lattice, energies[-1], specific_heat, M
+        return lattice, energies[-1]/n**2, specific_heat, M
 
 def theoratical_Tc(J):
     #Onsage solution of critical temperature
