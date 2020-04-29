@@ -93,7 +93,7 @@ def Ising_simulation(n, steps, J, T, r, ifcorr, ifreset):
         
         specific_heat = (average_energy_2 - average_energy**2)/(T**2)
         
-        M = Magnetization(lattice)/n**2
+        M = Magnetization(lattice)
         
         return lattice, energies[-1]/n**2, specific_heat, M
 
