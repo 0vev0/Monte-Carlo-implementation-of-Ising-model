@@ -151,10 +151,10 @@ def energy_data(j, T_range, N_T, method):
     if method == 1: #reset 
         T_data = np.linspace(T_range[0],T_range[1], N_T)
         IF = True
-    else if method == 1: # low T to high T
+    elif method == 1: # low T to high T
         T_data = np.linspace(T_range[0],T_range[1], N_T)
         IF = False
-    else if method == 3: # high T to low T
+    elif method == 3: # high T to low T
         T_data = np.linspace(T_range[1],T_range[0], N_T)
         IF = False
     else:
@@ -172,10 +172,10 @@ def specific_heat_data(j, T_range, N_T, method):
     if method == 1: #reset 
         T_data = np.linspace(T_range[0],T_range[1], N_T)
         IF = True
-    else if method == 1: # low T to high T
+    elif method == 1: # low T to high T
         T_data = np.linspace(T_range[0],T_range[1], N_T)
         IF = False
-    else if method == 3: # high T to low T
+    elif method == 3: # high T to low T
         T_data = np.linspace(T_range[1],T_range[0], N_T)
         IF = False
     else:
@@ -193,10 +193,10 @@ def magnetization_data(j, T_range, N_T, method):
     if method == 1: #reset 
         T_data = np.linspace(T_range[0],T_range[1], N_T)
         IF = True
-    else if method == 1: # low T to high T
+    elif method == 1: # low T to high T
         T_data = np.linspace(T_range[0],T_range[1], N_T)
         IF = False
-    else if method == 3: # high T to low T
+    elif method == 3: # high T to low T
         T_data = np.linspace(T_range[1],T_range[0], N_T)
         IF = False
     else:
