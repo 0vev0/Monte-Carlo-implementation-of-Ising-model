@@ -104,19 +104,20 @@ def Ising_simulation(n, steps, J, T, r, ifcorr, ifreset):
         
     # Advcice if we should use separete function to do the calculation of the evarage_energy and the evarage_energy^2.
     energies = np.array(energies)
-    Z = np.sum(np.exp(-energies/(k_b*T)))       
+    energies2 = energies - np.ones(len(energies))*energies[-1]
+    Z = np.sum(np.exp(-energies2/(k_b*T)))       
      
     #We need to add the correlation calculations                                                                             
     if ifcorr == True:
-        G1 = np.sum(np.exp(-energies/k_b*T)*corr_sigma_i*corr_sigma_j)/Z
-        G2 = (np.sum(np.exp(-energies/k_b*T)*corr_sigma_i)/Z)**2
+        G1 = np.sum(np.exp(-energies2/k_b*T)*corr_sigma_i*corr_sigma_j)/Z
+        G2 = (np.sum(np.exp(-energies2/k_b*T)*corr_sigma_i)/Z)**2
         G = G1 - G2
         
         return G
     
     else:
-        average_energy = np.sum(np.exp(-energies/(k_b*T))*energies)/Z
-        average_energy_2 = np.sum(np.exp(-(energies)/(k_b*T))*(energies**2))/Z
+        average_energy = np.sum(np.exp(-energies2/(k_b*T))*energies)/Z
+        average_energy_2 = np.sum(np.exp(-(energies2)/(k_b*T))*(energies2**2))/Z
         
         specific_heat = (average_energy_2 - average_energy**2)/(T**2)
         
@@ -151,7 +152,7 @@ def energy_data(j, T_range, N_T, method):
     if method == 1: #reset 
         T_data = np.linspace(T_range[0],T_range[1], N_T)
         IF = True
-    elif method == 1: # low T to high T
+    elif method == 2: # low T to high T
         T_data = np.linspace(T_range[0],T_range[1], N_T)
         IF = False
     elif method == 3: # high T to low T
@@ -172,7 +173,7 @@ def specific_heat_data(j, T_range, N_T, method):
     if method == 1: #reset 
         T_data = np.linspace(T_range[0],T_range[1], N_T)
         IF = True
-    elif method == 1: # low T to high T
+    elif method == 2: # low T to high T
         T_data = np.linspace(T_range[0],T_range[1], N_T)
         IF = False
     elif method == 3: # high T to low T
@@ -193,7 +194,7 @@ def magnetization_data(j, T_range, N_T, method):
     if method == 1: #reset 
         T_data = np.linspace(T_range[0],T_range[1], N_T)
         IF = True
-    elif method == 1: # low T to high T
+    elif method == 2: # low T to high T
         T_data = np.linspace(T_range[0],T_range[1], N_T)
         IF = False
     elif method == 3: # high T to low T
