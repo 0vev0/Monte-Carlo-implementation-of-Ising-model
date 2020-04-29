@@ -97,11 +97,11 @@ def Ising_simulation(n, steps, J, T, r, ifcorr, ifreset):
         
         return lattice, energies[-1]/n**2, specific_heat, M
 
-def theoratical_Tc(J):
+def theoretical_Tc(J):
     #Onsage solution of critical temperature
     return 2 * J / (k_b * math.log(np.sqrt(2) + 1))
 
-def theoratical_M(J,T):
+def theoretical_M(J,T):
     #Onsage solution of magnetization
     return (1 - (math.sinh(2 * J / (k_b * T))) ** (-4)) ** (1/8)
 
