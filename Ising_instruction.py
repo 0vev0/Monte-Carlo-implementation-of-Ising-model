@@ -268,7 +268,7 @@ def plot_magnetization(magnetization_data1, magnetization_data2, magnetization_d
     The example compares grid resets, analytical result, going from high to low, and going from low to high
     '''
     fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2, figsize=(12.8, 9.6))
-    xaxis = np.linspace(0.1, Tc, endpoint=False, 100)
+    xaxis = np.linspace(0.1, Tc, num=100, endpoint=False)
     ax1.scatter(temperature_data1, magnetization_data1, color='g', label=method1)
     ax1.scatter(temperature_data2, magnetization_data2, color='b', label=method2)
     ax1.scatter(temperature_data3, magnetization_data3, color='r', label=method3)
