@@ -62,7 +62,7 @@ def Ising_simulation(n, steps, J, T, r, ifcorr, ifreset):
         
         E = Energy(s_k,s_i_sum,J)
         
-        delta_E = E-(-E) # The energy is given by the defference between the energy of the spin original configuration 
+        delta_E = -2*E # The energy is given by the defference between the energy of the spin original configuration 
                          # and the energy if the spin was flip i.e changed in sign. 
         
         if delta_E < 0 or np.random.random() < np.exp(-delta_E/(k_b*T)): # If any of this two conditions is met, then the spin is flipped.
