@@ -37,7 +37,7 @@ def Ising_simulation(n, steps, J, T, method):
 
             E = -s_k*s_i_sum
 
-            delta_E = -2*E # The energy is given by the defference between the energy of the spin original configuration 
+            delta_E = -4*E # The energy is given by the defference between the energy of the spin original configuration 
                            # and the energy if the spin was flip i.e changed in sign. 
 
             if delta_E < 0 or np.random.random() < np.exp(-delta_E/(k_b*T)): # If any of this two conditions is met, then the spin is flipped.
@@ -50,37 +50,56 @@ def Ising_simulation(n, steps, J, T, method):
     energies = np.array(energies)
     M = Magnetization(lattice)
     ave_e = energies[-1]/(n**2)
-        
-    return lattice, ave_e, M
+    
+    min_energy = np.min(energies)
+    energies2 = energies - np.ones(len(energies))*min_energy
+
+    Z = np.sum(np.exp(-energies2/(k_b*T)))
+    average_energy = np.sum(np.exp(-energies2/(k_b*T))*energies)/Z
+    average_energy_2 = np.sum(np.exp(-(energies2)/(k_b*T))*(energies**2))/Z
+    specific_heat = (average_energy_2 - average_energy**2)/(T**2)
+    
+    return lattice, ave_e, M, specific_heat
 
 def lattice_state_data(j, t):
-    lattice,_,_ =  Ising_simulation(n=100, steps=150, J=j, T=t, method=2)
+    lattice,_,_,_ =  Ising_simulation(n=100, steps=150, J=j, T=t, method=2)
     return lattice
     
 def E_specific_heat_M_data(j, T_range, N_T, method):
     E_data = []
     M_data = []
+    SH_data = []
     global lattice
     
+    #for different method, set the T_data for differernt direction and set 
+    #intial condition for lattice
     if method == 1: #reset 
         T_data = np.linspace(T_range[0],T_range[1], N_T)
+        
     elif method == 2: # high T to low T
         lattice = np.random.choice([1, -1], size=(n, n))
         T_data = np.linspace(T_range[1],T_range[0], N_T)
+        
     elif method == 3: # low T to high T
         lattice = np.ones((n,n))
         T_data = np.linspace(T_range[0],T_range[1], N_T)
+        
     else:
         print('wrong input, method == 1, 2 or 3')
         return
+    
     for t in T_data:
+        # the initial lattice for grid reset method should be set before simulation at each temperature
         if method == 1:
             lattice = np.random.choice([1, -1], size=(n, n))
-        _, energy, magnetization = Ising_simulation(n=100, steps=150, J=j, T=t, method=method)
+        
+        #get simulation results for Ising_simulation function
+        _, energy, magnetization, specific_heat = Ising_simulation(n=100, steps=150, J=j, T=t, method=method)
         E_data.append(energy)
         M_data.append(magnetization)
+        SH_data.append(specific_heat)
         
-    return T_data, E_data, M_data
+    return T_data, E_data, M_data, SH_data
 
 def plot_energy(energy_data1, energy_data2, energy_data3, temperature_data1, temperature_data2, temperature_data3): 
     fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2,2, figsize=(12.8, 9.6))
@@ -156,13 +175,13 @@ def theoretical_M(J,T):
         M.append((1 - (math.sinh(2 * J / (k_b * t))) ** (-4)) ** (1/8))
     return M
     
-temperature_data11,energy_data11, magnetization_data11 = E_specific_heat_M_data(j=1, T_range=[0.1,5], N_T=100, method=1)
-temperature_data21,energy_data21, magnetization_data21 = E_specific_heat_M_data(j=1, T_range=[0.1,5], N_T=100, method=2)
-temperature_data31,energy_data31, magnetization_data31 = E_specific_heat_M_data(j=1, T_range=[0.1,5], N_T=100, method=3)
+temperature_data11,energy_data11, magnetization_data11,_ = E_specific_heat_M_data(j=1, T_range=[0.1,5], N_T=100, method=1)
+temperature_data21,energy_data21, magnetization_data21,specific_heat_data2 = E_specific_heat_M_data(j=1, T_range=[0.1,5], N_T=100, method=2)
+temperature_data31,energy_data31, magnetization_data31,specific_heat_data3 = E_specific_heat_M_data(j=1, T_range=[0.1,5], N_T=100, method=3)
 
-temperature_data12,energy_data12, magnetization_data12 = E_specific_heat_M_data(j=1, T_range=[0.1,5], N_T=100, method=1)
-temperature_data22,energy_data22, magnetization_data22 = E_specific_heat_M_data(j=1, T_range=[0.1,5], N_T=100, method=2)
-temperature_data32,energy_data32, magnetization_data32 = E_specific_heat_M_data(j=1, T_range=[0.1,5], N_T=100, method=3)
+temperature_data12,energy_data12, magnetization_data12,_ = E_specific_heat_M_data(j=1, T_range=[0.1,5], N_T=100, method=1)
+temperature_data22,energy_data22, magnetization_data22,_ = E_specific_heat_M_data(j=1, T_range=[0.1,5], N_T=100, method=2)
+temperature_data32,energy_data32, magnetization_data32,_ = E_specific_heat_M_data(j=1, T_range=[0.1,5], N_T=100, method=3)
 
 temperature_data1 = np.append(temperature_data11,temperature_data12)
 temperature_data2 = np.append(temperature_data21,temperature_data22)
@@ -179,3 +198,4 @@ magnetization_data3 = np.append(magnetization_data31,magnetization_data32)
 plot_energy(energy_data1, energy_data2, energy_data3, temperature_data1, temperature_data2, temperature_data3)
 Tc=theoretical_Tc(J=1)
 plot_magnetization(magnetization_data1, magnetization_data2, magnetization_data3, temperature_data1, temperature_data2, temperature_data3, Tc)
+plot_specific_heat(specific_heat_data2, temperature_data2, specific_heat_data3, temperature_data3)
