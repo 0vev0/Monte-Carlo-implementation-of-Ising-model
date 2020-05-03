@@ -103,15 +103,6 @@ def E_specific_heat_M_data(j, T_range, N_T, method):
 
 def Correlation_function(n, steps, J, T, R_array):
     global lattice
-
-    energies = []
-    E0 = 0  # initial total energy
-    for i in range(n):
-        for j in range(n):
-            s_k = lattice[i][j]
-            s_i_sum = lattice[(i+1)%n][j]  + lattice[i][(j+1)%n] #+ lattice[(i-1)%n][j] + lattice[i][(j-1)%n]
-            E0 += Energy(s_k,s_i_sum,J)
-    energies.append(E0)
     
     corr_sigma_i = []
     corr_sigma_j = []
